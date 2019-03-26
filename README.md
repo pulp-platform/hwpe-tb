@@ -34,6 +34,7 @@ https://github.com/pulp-platform/pulp-builder/blob/master/README.md
 If you have access to it, you can install a recent version of the SDK
 from `pulp-sdk-release`:
 https://github.com/pulp-platform/pulp-sdk-release
+
 The testbench has been tested with version 2019.02.06 configured for
 PULPissimo RTL simulation, but it should work in most other configurations
 as well.
