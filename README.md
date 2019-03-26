@@ -10,7 +10,7 @@ For further information on how to design and integrate such accelerators,
 see `hw/ips/hwpe-stream/doc`, https://arxiv.org/abs/1612.05974,
 https://arxiv.org/abs/1807.03010 .
 
-This testbench provides an example ``almost standalone'' environment to test
+This testbench provides an example "almost standalone" environment to test
 an example HWPE, performing multiply-accumulate on a
 vector of fixed-point values (in `hw/ips/hwpe-mac-engine` after
 updating the IPs: see below in the Getting Started section).
