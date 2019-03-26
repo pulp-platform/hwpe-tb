@@ -1,0 +1,15 @@
+zero-riscy:
+  commit: tags/pulpissimo-v1.0
+hwpe-ctrl:
+  commit: devel
+  domain: [cluster]
+hwpe-stream:
+  commit: devel
+  domain: [cluster]
+hwpe-mac-engine:
+  commit: master
+  domain: [cluster]
+tech_cells_generic:
+  commit : master
+scm:
+  commit : master

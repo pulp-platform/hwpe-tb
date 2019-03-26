@@ -1,0 +1,6 @@
+tb:
+  files: [
+    tb_hwpe.sv,
+    tb_dummy_memory.sv
+  ]
+
