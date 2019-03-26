@@ -92,5 +92,5 @@ For example,
 make build-hw clean all run P_STALL=0.1 gui=1
 ```
 builds the HW platform, rebuilds the SW and runs the test in GUI mode,
-with 10% of a contention (i.e. a stall) being generated on each memory
-interface.
+with 10% probability of a contention (i.e. a stall) being generated
+on each memory interface.
