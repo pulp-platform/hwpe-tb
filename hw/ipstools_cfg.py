@@ -6,7 +6,7 @@
 
 # switch to "git@github.com" if you have an SSH public key deployed on GitHub
 # and you want to push things there
-DEFAULT_SERVER = "git@github.com"
+DEFAULT_SERVER = "https://github.com"
 
 #################################
 ## DO NOT EDIT BELOW THIS LINE ##
