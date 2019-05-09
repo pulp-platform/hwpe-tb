@@ -4,10 +4,10 @@ hwpe-ctrl:
   commit: tags/v1.1.1
   domain: [cluster]
 hwpe-stream:
-  commit: tags/v1.2.6
+  commit: 2647f35
   domain: [cluster]
 hwpe-mac-engine:
-  commit: tags/v1.1
+  commit: 916fc9f
   domain: [cluster]
 tech_cells_generic:
   commit : b356526

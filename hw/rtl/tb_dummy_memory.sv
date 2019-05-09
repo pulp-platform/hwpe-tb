@@ -18,18 +18,31 @@
 timeunit 1ps;
 timeprecision 1ps;
 
+`ifdef VERILATOR
+  `define clk_verilated clk_delayed_i
+`else
+  `define clk_verilated clk_delayed
+`endif
+
 module tb_dummy_memory
 #(
   parameter MP          = 1,
   parameter MEMORY_SIZE = 1024,
   parameter BASE_ADDR   = 0,
   parameter PROB_STALL  = 0.0,
-  parameter TCP         = 1.0ns, // clock period, 1GHz clock
-  parameter TA          = 0.2ns, // application time
-  parameter TT          = 0.8ns  // test time
+`ifndef VERILATOR
+  parameter time TCP = 1.0ns, // clock period, 1GHz clock
+  parameter time TA  = 0.2ns, // application time
+  parameter time TT  = 0.8ns  // test time
+`else
+  parameter time TCP = 1.0,   // clock period, 1GHz clock
+  parameter time TA  = 0.2,   // application time
+  parameter time TT  = 0.8    // test time
+`endif
 )
 (
   input  logic                clk_i,
+  input  logic                clk_delayed_i,
   input  logic                randomize_i,
   input  logic                enable_i,
   input  logic                stallable_i,
@@ -62,7 +75,8 @@ module tb_dummy_memory
   always_ff @(posedge clk_i)
   begin : probs_proc
     for (int i=0; i<MP; i++) begin
-      probs[i] = real'($urandom_range(0,1000))/1000.0;
+      automatic logic [31:0] ran = $random();
+      probs[i] = real'(ran[9:0])/1024.0;
     end
   end
 
@@ -93,10 +107,12 @@ module tb_dummy_memory
   endgenerate
 
   // assign clk_delayed = #(TA) clk_i;
+`ifndef VERILATOR
   always @(clk_i)
   begin
     clk_delayed <= #(TA) clk_i;
   end
+`endif
 
   logic [MP-1:0][31:0] write_data;
 
@@ -115,7 +131,7 @@ module tb_dummy_memory
   begin : dummy_proc
     for (int i=0; i<MP; i++) begin
       if ((tcdm_req[i] & enable_i) == 1'b0) begin
-        tcdm_r_data_int  [i] <= 'z;
+        tcdm_r_data_int  [i] <= 'x;
         tcdm_r_valid_int [i] <= 1'b0;
       end
       else begin
@@ -136,18 +152,23 @@ module tb_dummy_memory
           tcdm_r_valid_int [i] <= 1'b0;
         end
         else begin
-          tcdm_r_data_int  [i] <= 'z;
+          tcdm_r_data_int  [i] <= 'x;
           tcdm_r_valid_int [i] <= 1'b0;
         end
       end
     end
   end
 
-  always_ff @(posedge clk_delayed)
+`ifndef VERILATOR
+  always_ff @(posedge `clk_verilated)
   begin
     tcdm_r_data  <= tcdm_r_data_int;
     tcdm_r_valid <= tcdm_r_valid_int;
   end
+`else
+  assign tcdm_r_data  = tcdm_r_data_int;
+  assign tcdm_r_valid = tcdm_r_valid_int;
+`endif
 
   generate;
 
@@ -159,7 +180,7 @@ module tb_dummy_memory
         cnt_rd[ii] = 0;
       end
 
-      always @(posedge clk_delayed) begin
+      always @(posedge `clk_verilated) begin
         if(tcdm_req[ii])
           cnt_req[ii] ++;
         if(tcdm_r_valid[ii])
