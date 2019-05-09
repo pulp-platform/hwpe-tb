@@ -10,7 +10,7 @@ For further information on how to design and integrate such accelerators,
 see `hw/ips/hwpe-stream/doc`, https://arxiv.org/abs/1612.05974,
 https://arxiv.org/abs/1807.03010 .
 
-This testbench provides an example ``almost standalone'' environment to test
+This testbench provides an example "almost standalone" environment to test
 an example HWPE, performing multiply-accumulate on a
 vector of fixed-point values (in `hw/ips/hwpe-mac-engine` after
 updating the IPs: see below in the Getting Started section).
@@ -92,5 +92,10 @@ For example,
 make build-hw clean all run P_STALL=0.1 gui=1
 ```
 builds the HW platform, rebuilds the SW and runs the test in GUI mode,
-with 10% of a contention (i.e. a stall) being generated on each memory
-interface.
+with 10% probability of a contention (i.e. a stall) being generated
+on each memory interface.
+
+# HWPE interface specifications
+[![Documentation Status](https://readthedocs.org/projects/hwpe-doc/badge/?version=latest)](https://hwpe-doc.readthedocs.io/en/latest/?badge=latest)
+
+See documentation on https://hwpe-doc.readthedocs.io.
