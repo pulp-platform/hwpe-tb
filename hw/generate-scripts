@@ -34,6 +34,9 @@ ipdb.generate_vsim_tcl("sim/tcl_files/config/vsim_rtl.tcl", source='rtl')
 # generate script to compile all IPs for ModelSim/QuestaSim
 ipdb.generate_makefile("sim/vcompile/ips.mk")
 ipdb.generate_makefile("sim/vcompile/rtl.mk", source='rtl')
+# generate FPGA-related scripts
+ipdb.export_verilator("veri/verilate_ips.mk")
+ipdb.export_verilator("veri/verilate_rtl.mk", source='rtl')
 
 print(tcolors.OK + "Generated new scripts for IPs!" + tcolors.ENDC)
 

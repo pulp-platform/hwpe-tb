@@ -1,6 +1,14 @@
 tb:
+  flags: [
+    skip_verilator,
+  ]
   files: [
-    tb_hwpe.sv,
+    tb_hwpe.sv
+  ]
+
+tb_veri:
+  files: [
+    sim_hwpe.sv,
     tb_dummy_memory.sv
   ]
 

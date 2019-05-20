@@ -38,10 +38,11 @@ def execute_out(cmd, silent=False):
 if os.path.exists("ipstools") and os.path.isdir("ipstools"):
     cwd = os.getcwd()
     os.chdir("ipstools")
+    execute("git checkout verilator", silent=True)
     execute("git pull", silent=True)
     os.chdir(cwd)
     import ipstools
 else:
-    execute("git clone https://github.com/pulp-platform/IPApproX ipstools")
+    execute("git clone https://github.com/pulp-platform/IPApproX ipstools -b verilator")
     import ipstools
 

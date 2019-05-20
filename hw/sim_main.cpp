@@ -23,6 +23,10 @@ double sc_time_stamp() {
   return main_time;  // Note does conversion to real, to match SystemC
 }
 
+const char *my_getenv(const char *s) {
+  return (const char *) getenv(s);
+}
+
 int main(int argc, char **argv, char **env) {
   Verilated::commandArgs(argc, argv);
   Verilated::traceEverOn(true);
