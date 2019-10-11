@@ -277,9 +277,10 @@ module sim_hwpe #(
     $display("Welcome to the HWPE testbench!");
   end
 
+  int returned = -1;
+
   assign flag = sim_hwpe.i_zeroriscy.sleeping & (returned!=-1);
 
-  int returned = -1;
   always_ff @(posedge clk_i)
   begin
     if((data_addr == 32'h80000000) && (data_we & data_req == 1'b1))
