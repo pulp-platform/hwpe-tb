@@ -51,9 +51,9 @@ https://github.com/pulp-platform/pulp-sdk
 
 Then you can execute the following commands:
 ```
+export PULP_GITHUB_SSH=1
 git clone https://github.com/pulp-platform/pulp-sdk.git
 cd pulp-sdk
-export PULP_GITHUB_SSH=1
 git submodule update --init --recursive
 source configs/pulpissimo.sh
 source configs/platform-rtl.sh
