@@ -28,29 +28,45 @@ The top RTL testbench is located in `hw/rtl/tb_hwpe.sv`.
 This testbench has a loose dependency on the PULP sdk. To install it,
 follow the same instructions as reported in PULPissimo.
 Start by installing the system dependencies indicated here:
-https://github.com/pulp-platform/pulp-builder/blob/master/README.md
+https://github.com/pulp-platform/pulp-sdk#linux-dependencies
 
-### Install with pulp-sdk-release (recommended)
+This testbench requires also the installation of the following packages:
+```
+sudo pip3 install numpy
+sudo pip install numpy
+```
+
+Before the PULP sdk build, you need to provide via environmental variable the RISC-V installation path:
+```
+$ export PULP_RISCV_GCC_TOOLCHAIN=<path to the folder containing the bin folder of the toolchain>
+```
+
+Otherwise, you can build it following the commands indicated here:
+https://github.com/pulp-platform/pulp-riscv-gnu-toolchain
+
+### Install from pulp-sdk sources
 If you have access to it, you can install a recent version of the SDK
-from `pulp-sdk-release`:
-https://github.com/pulp-platform/pulp-sdk-release
+from `pulp-sdk`:
+https://github.com/pulp-platform/pulp-sdk
+
+Then you can execute the following commands:
+```
+git clone https://github.com/pulp-platform/pulp-sdk.git
+cd pulp-sdk
+export PULP_GITHUB_SSH=1
+git submodule update --init --recursive
+source configs/pulpissimo.sh
+source configs/platform-rtl.sh
+make all env
+```
+From now on, to set up the built environment you only need to source the generated script as follow:
+```
+source pulp-sdk/sourceme.sh
+```
 
 The testbench has been tested with version 2019.02.06 configured for
 PULPissimo RTL simulation, but it should work in most other configurations
 as well.
-
-### Install with pulp-builder
-Otherwise, you can execute the following commands:
-```
-git clone https://github.com/pulp-platform/pulp-builder.git
-cd pulp-builder
-source configs/pulpissimo.sh
-./scripts/clean
-./scripts/build-runtime
-source sdk-setup.sh
-source configs/rtl.sh
-cd ..
-```
 
 ## Building the RTL simulation platform
 To build the RTL simulation platform, start by getting the latest version of the
