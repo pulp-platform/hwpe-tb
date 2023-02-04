@@ -72,7 +72,7 @@ endif
 
 all: $(STIM_INSTR) $(STIM_DATA)
 
-update-ips:
+update-ips: bender
 	$(MAKE) -C hw scripts
 
 build-hw:

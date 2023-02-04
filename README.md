@@ -7,8 +7,7 @@ The `hw/ips/hwpe-stream` and `hw/ips/hwpe-ctrl` folders contain the IPs
 necessary to plug streaming accelerators into a PULP system on the data and
 control plane.
 For further information on how to design and integrate such accelerators,
-see `hw/ips/hwpe-stream/doc`, https://arxiv.org/abs/1612.05974,
-https://arxiv.org/abs/1807.03010 .
+see https://hwpe-doc.rtfd.io/.
 
 This testbench provides an example "almost standalone" environment to test
 an example HWPE, performing multiply-accumulate on a
@@ -25,32 +24,14 @@ The top RTL testbench is located in `hw/rtl/tb_hwpe.sv`.
 # Getting Started
 
 ## Prerequisites
-This testbench has a loose dependency on the PULP sdk. To install it,
-follow the same instructions as reported in PULPissimo.
-Start by installing the system dependencies indicated here:
-https://github.com/pulp-platform/pulp-builder/blob/master/README.md
-
-### Install with pulp-sdk-release (recommended)
-If you have access to it, you can install a recent version of the SDK
-from `pulp-sdk-release`:
-https://github.com/pulp-platform/pulp-sdk-release
-
-The testbench has been tested with version 2019.02.06 configured for
-PULPissimo RTL simulation, but it should work in most other configurations
-as well.
-
-### Install with pulp-builder
-Otherwise, you can execute the following commands:
+This testbench requires a RISC-V GCC toolchain available and installed, for
+example https://github.com/pulp-platform/pulp-riscv-gnu-toolchain (the 
+one used for testing it -- but another toolchain should be fine).
+The toolchain path must be exported like in the PULP SDK, i.e.,
 ```
-git clone https://github.com/pulp-platform/pulp-builder.git
-cd pulp-builder
-source configs/pulpissimo.sh
-./scripts/clean
-./scripts/build-runtime
-source sdk-setup.sh
-source configs/rtl.sh
-cd ..
+export PULP_RISCV_GCC_TOOLCHAIN=/path/to/riscv/gcc/root
 ```
+The testbench will look for the toolchain in `$PULP_RISCV_GCC_TOOLCHAIN/bin`.
 
 ## Building the RTL simulation platform
 To build the RTL simulation platform, start by getting the latest version of the
@@ -59,7 +40,8 @@ IPs composing the PULP system:
 make update-ips
 ```
 This will download all the required IPs, solve dependencies and generate the
-simulation scripts. 
+simulation scripts using Bender, which will be installed if not already
+available. 
 
 After having access to the SDK, you can build the simulation platform by doing
 the following:
