@@ -20,9 +20,13 @@ P_STALL ?= 0.0
 BUILD_DIR ?= build
 TEST_SRCS ?= sw/tb_hwpe.c
 
+# Bender stuff
+BENDER_VERSION = 0.23.2
+BENDER_INSTALL_DIR = hw
+
 # Setup toolchain (from SDK) and options
-CC=$(PULP_RISCV_GCC_TOOLCHAIN_CI)/bin/riscv32-unknown-elf-gcc
-LD=$(PULP_RISCV_GCC_TOOLCHAIN_CI)/bin/riscv32-unknown-elf-gcc
+CC=$(PULP_RISCV_GCC_TOOLCHAIN)/bin/riscv32-unknown-elf-gcc
+LD=$(PULP_RISCV_GCC_TOOLCHAIN)/bin/riscv32-unknown-elf-gcc
 CC_OPTS=-march=rv32imc -D__riscv__ -O2 -g -Wextra -Wall -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function -Wundef -fdata-sections -ffunction-sections -MMD -MP
 LD_OPTS=-march=rv32imc -D__riscv__ -MMD -MP -nostartfiles -nostdlib -Wl,--gc-sections
 
@@ -33,15 +37,15 @@ BIN=$(BUILD_DIR)/$(TEST_SRCS)/verif
 STIM_INSTR=$(BUILD_DIR)/$(TEST_SRCS)/stim_instr.txt
 STIM_DATA=$(BUILD_DIR)/$(TEST_SRCS)/stim_data.txt
 VSIM_INI=$(BUILD_DIR)/$(TEST_SRCS)/modelsim.ini
-VSIM_LIBS=$(BUILD_DIR)/$(TEST_SRCS)/modelsim_libs
+VSIM_LIBS=$(BUILD_DIR)/$(TEST_SRCS)/work
 
 # Build implicit rules
 $(STIM_INSTR) $(STIM_DATA): $(BIN)
 	objcopy --srec-len 1 --output-target=srec $(BIN) $(BIN).s19
 	sw/parse_s19.pl $(BIN).s19 > $(BIN).txt
 	python sw/s19tomem.py $(BIN).txt $(STIM_INSTR) $(STIM_DATA)
-	ln -sfn $(mkfile_path)/hw/sim/modelsim.ini $(VSIM_INI)
-	ln -sfn $(mkfile_path)/hw/sim/modelsim_libs $(VSIM_LIBS)
+	ln -sfn $(mkfile_path)/hw/modelsim.ini $(VSIM_INI)
+	ln -sfn $(mkfile_path)/hw/work $(VSIM_LIBS)
 
 $(BIN): $(CRT) $(OBJ) sw/link.ld
 	$(LD) $(LD_OPTS) -o $(BIN) $(CRT) $(OBJ) -Tsw/link.ld
@@ -69,11 +73,20 @@ endif
 all: $(STIM_INSTR) $(STIM_DATA)
 
 update-ips:
-	cd hw; ./update-ips
+	$(MAKE) -C hw scripts
 
 build-hw:
-	cd hw/sim; make clean lib build opt
+	$(MAKE) -C hw lib build opt
 
+clean-hw:
+	$(MAKE) -C hw clean-env
+	
 clean:
 	rm -rf $(BUILD_DIR)/$(TEST_SRCS)
 
+# Download bender
+bender:
+	mkdir -p $(BENDER_INSTALL_DIR)
+	cd $(BENDER_INSTALL_DIR);      \
+	curl --proto '=https'  \
+	--tlsv1.2 https://pulp-platform.github.io/bender/init -sSf | sh -s -- 0.24.0

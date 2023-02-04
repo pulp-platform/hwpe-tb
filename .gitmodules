@@ -1,0 +1,9 @@
+[submodule "hw/ips/hwpe-ctrl"]
+	path = hw/ips/hwpe-ctrl
+	url = https://github.com/pulp-platform/hwpe-ctrl
+[submodule "hw/ips/hwpe-stream"]
+	path = hw/ips/hwpe-stream
+	url = https://github.com/pulp-platform/hwpe-stream
+[submodule "hw/ips/hwpe-mac-engine"]
+	path = hw/ips/hwpe-mac-engine
+	url = https://github.com/pulp-platform/hwpe-mac-engine

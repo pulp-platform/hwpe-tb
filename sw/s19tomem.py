@@ -1,18 +1,19 @@
-# 
+#
 # Copyright (C) 2018-2019 ETH Zurich and University of Bologna
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-# 
+# SPDX-License-Identifier: Apache-2.0
+#
 
 import numpy as np
 import sys
@@ -41,21 +42,20 @@ for l in s.split():
     wh = int(l[9:17], 16)
     wl = int(l[17:25], 16)
     if addr >= DATA_BASE and addr < STACK_BASE:
-        data_mem [addr / 4]     = wl
-        data_mem [addr / 4 + 1] = wh
+        data_mem [addr // 4]     = wl
+        data_mem [addr // 4 + 1] = wh
     else:
-        instr_mem[addr / 4]     = wl
-        instr_mem[addr / 4 + 1] = wh
+        instr_mem[addr // 4]     = wl
+        instr_mem[addr // 4 + 1] = wh
 
 s = ""
 for m in instr_mem:
     s += "%08x\n" % m
 with open(instr_txt, "w") as f:
     f.write(s)
-    
+
 s = ""
 for m in data_mem:
     s += "%08x\n" % m
 with open(data_txt, "w") as f:
-    f.write(s)
-    
+    f.write(s.rstrip('\n'))

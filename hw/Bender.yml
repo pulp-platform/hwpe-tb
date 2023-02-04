@@ -1,0 +1,33 @@
+# Copyright 2023 ETH Zurich and University of Bologna.
+# Licensed under the Apache License, Version 2.0, see LICENSE for details.
+# SPDX-License-Identifier: Apache-2.0
+
+package:
+  name: hwpe-tb
+
+dependencies:
+  hwpe-ctrl:          { path: "ips/hwpe-ctrl"                                                         }
+  zeroriscy:          { git: "https://github.com/yvantor/ibex.git", rev: "bender"                     }
+  hwpe-mac-engine:    { path: "ips/hwpe-mac-engine"                                                   }
+  hwpe-stream:        { path: "ips/hwpe-stream"                                                       }
+  scm:                { git: "https://github.com/pulp-platform/scm.git", rev: "master"                }
+  tech_cells_generic: { git: "https://github.com/pulp-platform/tech_cells_generic.git", rev: "master" }
+
+workspace:
+  checkout_dir: "./ips"
+
+sources:
+
+  - target: vsim
+    files:
+      # Level 0
+      - rtl/tb_dummy_memory.sv
+      # Level 1
+      - rtl/tb_hwpe.sv
+
+  - target: verilator
+    files:
+      # Level 0
+      - rtl/tb_dummy_memory.sv
+      # Level 1
+      - rtl/sim_hwpe.sv
