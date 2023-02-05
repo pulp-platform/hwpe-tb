@@ -73,6 +73,7 @@ endif
 all: $(STIM_INSTR) $(STIM_DATA)
 
 update-ips: bender
+	git submodule update --init --recursive
 	$(MAKE) -C hw scripts
 
 build-hw:
@@ -85,8 +86,11 @@ clean:
 	rm -rf $(BUILD_DIR)/$(TEST_SRCS)
 
 # Download bender
-bender:
+bender: hw/bender
+
+hw/bender:
 	mkdir -p $(BENDER_INSTALL_DIR)
 	cd $(BENDER_INSTALL_DIR);      \
 	curl --proto '=https'  \
 	--tlsv1.2 https://pulp-platform.github.io/bender/init -sSf | sh -s -- 0.24.0
+
