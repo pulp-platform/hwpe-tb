@@ -10,6 +10,8 @@
 //#if VM_TRACE
 # include <verilated_vcd_c.h>
 //#endif
+#include "svdpi.h"
+#include "Vsim_hwpe__Dpi.h"
 
 #define CYCLES    1000 
 #define CLK_DELAY  200

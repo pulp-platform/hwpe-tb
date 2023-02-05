@@ -12,16 +12,17 @@ verilated/Vsim_hwpe: verilated/Vsim_hwpe.mk
 verilated/Vsim_hwpe.mk:
 	verilator -O3 -cc -Wno-fatal --exe ../sim_main.cpp --Mdir verilated \
         --trace --trace-structs --trace-params \
+        --timing \
         --autoflush \
         --Wno-width \
         --Wno-stmtdly \
         --Wno-unoptflat \
         --top-module sim_hwpe -Wno-BLKANDNBLK \
-        ${INC_IPS} \
-        ${INC_RTL} \
-        ${SRC_IPS} \
-        ${SRC_RTL}
+        -f files
 
 clean:
+	rm -rf verilated/Vsim_hwpe verilated/Vsim_hwpe.mk
+
+clean-hard:
 	rm -rf verilated
 
