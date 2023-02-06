@@ -38,6 +38,7 @@ STIM_INSTR=$(BUILD_DIR)/$(TEST_SRCS)/stim_instr.txt
 STIM_DATA=$(BUILD_DIR)/$(TEST_SRCS)/stim_data.txt
 VSIM_INI=$(BUILD_DIR)/$(TEST_SRCS)/modelsim.ini
 VSIM_LIBS=$(BUILD_DIR)/$(TEST_SRCS)/work
+VERI_LIBS=$(BUILD_DIR)/$(TEST_SRCS)/verilated
 
 # Build implicit rules
 $(STIM_INSTR) $(STIM_DATA): $(BIN)
@@ -45,7 +46,7 @@ $(STIM_INSTR) $(STIM_DATA): $(BIN)
 	sw/parse_s19.pl $(BIN).s19 > $(BIN).txt
 	python sw/s19tomem.py $(BIN).txt $(STIM_INSTR) $(STIM_DATA)
 	ln -sfn $(mkfile_path)/hw/modelsim.ini $(VSIM_INI)
-	ln -sfn $(mkfile_path)/hw/work $(VSIM_LIBS)
+	ln -sfn $(mkfile_path)/hw/veri/verilated $(VERI_LIBS)
 
 $(BIN): $(CRT) $(OBJ) sw/link.ld
 	$(LD) $(LD_OPTS) -o $(BIN) $(CRT) $(OBJ) -Tsw/link.ld
@@ -70,14 +71,20 @@ else
 	cd $(BUILD_DIR)/$(TEST_SRCS); vsim vopt_tb -gSTIM_INSTR=stim_instr.txt -gSTIM_DATA=stim_data.txt -gPROB_STALL=$(P_STALL)
 endif
 
+run-verilator: $(CRT)
+	cd $(BUILD_DIR)/$(TEST_SRCS); HWPE_TB_STIM_INSTR=./stim_instr.txt HWPE_TB_STIM_DATA=./stim_data.txt verilated/Vsim_hwpe
+
 all: $(STIM_INSTR) $(STIM_DATA)
 
 update-ips: bender
 	git submodule update --init --recursive
-	$(MAKE) -C hw scripts
+	$(MAKE) -C hw scripts veri-scripts
 
 build-hw:
 	$(MAKE) -C hw lib build opt
+
+build-hw-verilator:
+	$(MAKE) -C hw/veri clean-hard all
 
 clean-hw:
 	$(MAKE) -C hw clean-env

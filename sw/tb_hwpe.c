@@ -46,8 +46,6 @@ int main() {
   // enable hwpe
   hwpe_cg_enable();
 
-  tfp_printf("H\n");
-  // *(int *) 0x80000004 = 'H';
   while((offload_id_tmp = hwpe_acquire_job()) < 0);
 
   // set up bytecode
