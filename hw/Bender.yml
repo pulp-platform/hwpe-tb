@@ -7,7 +7,7 @@ package:
 
 dependencies:
   hwpe-ctrl:          { path: "ips/hwpe-ctrl"                                                         }
-  zeroriscy:          { git: "https://github.com/yvantor/ibex.git", rev: "bender"                     }
+  zeroriscy:          { git: "https://github.com/FrancescoConti/ibex.git", rev: "bender"              }
   hwpe-mac-engine:    { path: "ips/hwpe-mac-engine"                                                   }
   hwpe-stream:        { path: "ips/hwpe-stream"                                                       }
   scm:                { git: "https://github.com/pulp-platform/scm.git", rev: "master"                }

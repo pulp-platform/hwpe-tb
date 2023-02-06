@@ -46,6 +46,7 @@ $(STIM_INSTR) $(STIM_DATA): $(BIN)
 	sw/parse_s19.pl $(BIN).s19 > $(BIN).txt
 	python sw/s19tomem.py $(BIN).txt $(STIM_INSTR) $(STIM_DATA)
 	ln -sfn $(mkfile_path)/hw/modelsim.ini $(VSIM_INI)
+	ln -sfn $(mkfile_path)/hw/work $(VSIM_LIBS)
 	ln -sfn $(mkfile_path)/hw/veri/verilated $(VERI_LIBS)
 
 $(BIN): $(CRT) $(OBJ) sw/link.ld
