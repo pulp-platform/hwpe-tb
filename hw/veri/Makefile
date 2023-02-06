@@ -12,7 +12,7 @@ verilated/Vsim_hwpe: verilated/Vsim_hwpe.mk
 verilated/Vsim_hwpe.mk:
 	verilator -O3 -cc -Wno-fatal --exe ../sim_main.cpp --Mdir verilated \
         --trace --trace-structs --trace-params \
-        --timing \
+        --notiming \
         --autoflush \
         --Wno-width \
         --Wno-stmtdly \

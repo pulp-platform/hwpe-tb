@@ -323,8 +323,12 @@ module tb_hwpe;
   int returned = -1;
   always_ff @(posedge clk_i)
   begin
-    if((data_addr == 32'h80000000) && (data_we & data_req == 1'b1))
+    if((data_addr == 32'h80000000 ) && (data_we & data_req == 1'b1)) begin
       returned = data_wdata;
+    end
+    if((data_addr == 32'h80000004 ) && (data_we & data_req == 1'b1)) begin
+      $write("%c", data_wdata);
+    end
   end
 
   initial begin

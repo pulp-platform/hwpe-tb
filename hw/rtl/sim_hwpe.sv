@@ -268,14 +268,16 @@ module sim_hwpe #(
     .ext_perf_counters_i ( '0           )
   );
 
+`ifdef VERILATOR
   import "DPI-C" function string my_getenv(input string env_name);
 
   initial begin
     // load instruction memory
     $readmemh(my_getenv("HWPE_TB_STIM_INSTR"), sim_hwpe.i_dummy_instr_memory.memory);
     $readmemh(my_getenv("HWPE_TB_STIM_DATA"), sim_hwpe.i_dummy_memory.memory);
-    $display("Welcome to the HWPE testbench!");
+    $display("Welcome to the HWPE Verilator testbench!");
   end
+`endif
 
   int returned = -1;
 
@@ -283,8 +285,12 @@ module sim_hwpe #(
 
   always_ff @(posedge clk_i)
   begin
-    if((data_addr == 32'h80000000) && (data_we & data_req == 1'b1))
+    if((data_addr == 32'h80000000) && (data_we & data_req == 1'b1)) begin
       returned = data_wdata;
+    end
+    if((data_addr == 32'h80000004) && (data_we & data_req == 1'b1)) begin
+      $write("%c", data_wdata);
+    end
   end
 
   int cnt = 0;
@@ -300,5 +306,5 @@ module sim_hwpe #(
       cnt += 1;
     end
   end
-
+  
 endmodule // sim_hwpe
